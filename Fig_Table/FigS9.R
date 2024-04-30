@@ -11,13 +11,13 @@
 
 
 os = Sys.info()[["sysname"]]
-if (os == "Linux") { setwd("DanielLau/regression/") }
+# if (os == "Linux") { setwd("DanielLau/regression/") }
 
 
 
 load(list.files("data", "HK_flu_reg", full.names = T))
 load(list.files("data", "hosp_data", full.names = T))
-source("program/ILI/20230619_reg_sep_fore_Xw_fx.R")
+source("program/ILI/20240404_reg_sep_fore_Xw_fx.R")
 source("program/hosp/20230818_hosp_fx.R")
 
 f.yr     = 2020
@@ -54,7 +54,7 @@ hosp.compare = hosp.compare.fx(hosp.C)
 
 pdf(
   width = 5, height = 10,
-  file = file.fx(sprintf("Fig9.pdf", f.period, f.yr))
+  file = file.fx(sprintf("FigS9.pdf", f.period, f.yr))
 )
 
 # quartz(width = 6, height = 12)
@@ -66,7 +66,7 @@ for (k in 1:4) {
   plot(
     NULL,
     xlim = c(0, 120),
-    ylim = c(0, 225),
+    ylim = c(0, 300),
     main = "", # Admission rates in public hospitals with\nprincipal diagnosis of influenza per 1e6 population",
     xaxt = "n",
     yaxt = "n",
@@ -86,7 +86,7 @@ for (k in 1:4) {
     "Influenza-associated hospital admission rate",
     side = 2, line = 2, outer = T, las = 0, font = 2
   )
-  axis(2, at = seq(0, 200, 50), labels = sprintf("%.3f", seq(0, 200, 50) / 1e4))
+  axis(2, at = seq(0, 300, 50), labels = sprintf("%.3f", seq(0, 300, 50) / 1e4))
   
   abline(v = axis.t, col = alpha(1, 0.1))
   

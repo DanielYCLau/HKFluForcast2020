@@ -11,7 +11,7 @@
 
 
 
-source("program/hosp/20230628_reg_sep_fore_Xw_fx.R")
+source("program/hosp/20240415_reg_sep_fore_Xw_fx.R")
 
 f.yr = 2020
 
@@ -30,6 +30,11 @@ cv.f = list()
 for (f.period in c(4, 13)) {
   
   load(list.files("program/hosp", sprintf("reg_sep_fore_%02dw_%d_CV_result.Rdata", f.period, f.yr), full.names = T))
+  
+  cv.table = aggregate(. ~ model, data = cv.table, FUN = mean)
+  cv.table = subset(cv.table, select = -tsCV.ind)
+  
+  
   cv.table = cv.table[, grep("t[.]", colnames(cv.table), invert = T)]
   cv.table = cv.table[, c("model", "v.WIS", "v.RMSE", "v.LNQ", "v.MAE")]
   

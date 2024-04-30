@@ -12,7 +12,7 @@
 
 
 load(list.files("data", "HK_flu_reg", full.names = T))
-source("program/ILI/20230619_reg_sep_fore_Xw_fx.R")
+source("program/ILI/20240404_reg_sep_fore_Xw_fx.R")
 
 
 
@@ -38,18 +38,21 @@ for (f.period in c(4, 13)) {
   
   f.yr = 2020
   # f.period = 4
-  data.fx(data, f.yr, f.period, 10)
+  data.fx(data, f.yr, f.period, 26)
   
 
   
   load(list.files("program/ILI", sprintf("reg_sep_fore_%02dw_%d_CV_result.Rdata", f.period, f.yr), full.names = T))
+  
+  cv.table = aggregate(. ~ model, data = cv.table, FUN = mean)
+  cv.table = subset(cv.table, select = -tsCV.ind)
   cv.table = criteria.rank.fx(cv.table, rank.w.value = F)
   
-  ( WIS.model  = with(cv.table, model[which.min(v.WIS      )]) ) 
   ( RMSE.model = with(cv.table, model[which.min(v.RMSE     )]) )
   ( LNQ.model  = with(cv.table, model[which.min(v.LNQ      )]) )
   ( MAE.model  = with(cv.table, model[which.min(v.MAE      )]) ) 
-
+  ( WIS.model  = with(cv.table, model[which.min(v.WIS      )]) ) 
+  
   
   
   # calculate r2
@@ -95,8 +98,8 @@ save(f.r2, file = file.fx("r2.Rdata"))
 
 
 
-range( sapply(f.r2[["13w"]], function(i) { i[1:4]  } ) )
-range( sapply(f.r2[["13w"]], function(i) { i[5:13] } ) )
+# range( sapply(f.r2[["13w"]], function(i) { i[1:4]  } ) )
+# range( sapply(f.r2[["13w"]], function(i) { i[5:13] } ) )
 
 
 pdf(

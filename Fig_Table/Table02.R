@@ -20,7 +20,7 @@ ILIpS  = ILIpS[["2019"]]
 ILIpS[, "f.WeekEnd"] = ILIpS[, "WeekEnd"]
 
 
-source("program/ILI/20230619_reg_sep_fore_Xw_fx.R")
+source("program/ILI/20240404_reg_sep_fore_Xw_fx.R")
 
 
 
@@ -36,7 +36,7 @@ source("program/ILI/20230619_reg_sep_fore_Xw_fx.R")
 
 f.yr = 2020
 f.period = 13
-data.fx(data, f.yr, f.period, 10)
+data.fx(data, f.yr, f.period, 26)
 model.list.fx()
 
 

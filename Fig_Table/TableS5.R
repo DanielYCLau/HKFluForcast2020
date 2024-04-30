@@ -31,7 +31,7 @@ ILIpS  = split(ILIpS, season)
 ILIpS  = ILIpS[["2019"]]
 ILIpS[, "f.WeekEnd"] = ILIpS[, "WeekEnd"]
 
-source("program/hosp/20230628_reg_sep_fore_Xw_fx.R")
+source("program/hosp/20240415_reg_sep_fore_Xw_fx.R")
 
 
 
@@ -47,7 +47,7 @@ source("program/hosp/20230628_reg_sep_fore_Xw_fx.R")
 
 f.yr = 2020
 f.period = 13
-data.fx(data, f.yr, f.period, 10)
+data.fx(data, f.yr, f.period, 26)
 model.list.fx()
 
 
@@ -215,7 +215,7 @@ att.fm = do.call(cbind, att.fm)
 
 write.csv(
   att.fm, 
-  file = file.fx(sprintf("Table2_%02dw_att.csv", f.period)),
+  file = file.fx(sprintf("TableS5_%02dw_att.csv", f.period)),
   na = ""
 )
 

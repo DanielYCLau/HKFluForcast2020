@@ -15,8 +15,8 @@ os = Sys.info()[["sysname"]]
 
 
 load(list.files("data", "HK_flu_reg", full.names = T))
-source("program/ILI/20230619_reg_sep_fore_Xw_fx.R")
-source("program/ILI/20230620_Rt_fx.R")
+source("program/ILI/20240404_reg_sep_fore_Xw_fx.R")
+source("program/ILI/20240404_Rt_fx.R")
 
 
 
@@ -196,10 +196,10 @@ Rt.compare = lapply(
   1:4,
   function(f.start) {
     # f.start = 3
-    load(list.files("program/ILI", sprintf("forecast_%dw_Rt.Rdata", f.start), full.names = T))
-    RtPI.compare.f = Rt.compare.fx(pred.Rt)
-    load(list.files("program/ILI", sprintf("forecast_%dw_RtCI.Rdata", f.start), full.names = T))
-    RtCI.compare.f = Rt.compare.fx(pred.Rt)
+    load(list.files("program/ILI", "forecast_RtPI.Rdata", full.names = T))
+    RtPI.compare.f = Rt.compare.fx(pred.Rt[[f.start]])
+    load(list.files("program/ILI", "forecast_RtCI.Rdata", full.names = T))
+    RtCI.compare.f = Rt.compare.fx(pred.Rt[[f.start]])
 
     Rt.compare.f = merge(
       x   = RtPI.compare.f[, 1:4],

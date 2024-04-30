@@ -12,7 +12,7 @@
 
 
 load(list.files("data", "HK_flu_reg", full.names = T))
-source("program/ILI/20230619_reg_sep_fore_Xw_fx.R")
+source("program/ILI/20240404_reg_sep_fore_Xw_fx.R")
 
 substrRight = function(x, n){ substr(x, nchar(x)-n+1, nchar(x)) }
 
@@ -73,10 +73,10 @@ for (k in 1:length(f.list)) {
   # same for every plot
   plot(
     ILIpS/1e6 ~ t, data = data,
-    ylim = c(0, max(data[, "ILIpS"]/1e6) * 7), xlim = t.lim,
+    ylim = c(0, max(data[, "ILIpS"]/1e6) * 6), xlim = t.lim,
     ylab = "", type = "l", xaxt = "n", yaxt = "n", ann = F
   )
-  axis(2, at = seq(0, 1, 0.01))
+  axis(2, at = seq(0, 0.03, 0.01))
   
   if (k == 1) {
     title = sprintf("Forecast 1-%s weeks ahead in %s", f.period, f.yr)
@@ -184,12 +184,6 @@ mtext("Influenza Activity (ILI+ proxy)", side = 2, line = 0, outer = T, las = 0)
 
 
 dev.off()
-
-
-
-
-
-setwd("..")
 
 
 

@@ -13,7 +13,7 @@
 
 load(list.files("data", "HK_flu_reg", full.names = T))
 load(list.files("data", "hosp_data", full.names = T))
-source("program/hosp/20230628_reg_sep_fore_Xw_fx.R")
+source("program/hosp/20240415_reg_sep_fore_Xw_fx.R")
 
 
 
@@ -114,12 +114,12 @@ for (f.period in c(4, 13)) {
   # same for every plot
   plot(
     ILIpS/1e4 ~ t, data = data,
-    ylim = c(0, 0.03), xlim = t.lim,
+    ylim = c(0, 0.05), xlim = t.lim,
     ylab = "", #, bquote("      Influenza-associated\nhospital admission ( per"~10^6~")"),
     xlab = "",
     type = "l", xaxt = "n", yaxt = "n" #, ann = F
   )
-  axis(2, at = seq(0, 0.03, 0.005))
+  axis(2, at = seq(0, 0.04, 0.01))
   
   if (k == 1) {
     title = sprintf("Forecast 1-%s weeks ahead in %s", f.period, f.yr)
@@ -201,7 +201,7 @@ for (f.period in c(4, 13)) {
   event.fx(
     event   = "      First COVID-19 case in Wuhan\n      on 1st Dec 2019",
     event.t = decimal_date(as.Date("2019-12-01")),
-    event.y = 0.028,
+    event.y = 0.045,
     cex     = 0.65
   )
   
@@ -209,14 +209,14 @@ for (f.period in c(4, 13)) {
   event.fx(
     event   = "      Screening at airports and train stations with\n      connects to Wuhan on 6th Jan 2020",
     event.t = decimal_date(as.Date("2020-01-06")),
-    event.y = 0.024,
+    event.y = 0.040,
     cex     = 0.65
   )
   
   event.fx(
     event   = "      First COVID-19 case in Hong Kong\n      on 22nd Jan 2020",
     event.t = decimal_date(as.Date("2020-01-22")),
-    event.y = 0.020,
+    event.y = 0.0325,
     cex     = 0.65
   )
   

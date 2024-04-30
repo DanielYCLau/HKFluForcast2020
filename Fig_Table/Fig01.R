@@ -13,7 +13,7 @@
 
 load(list.files("data", "HK_flu_reg", full.names = T))
 load(list.files("data", "hosp_data", full.names = T))
-source("program/20230628_reg_sep_fore_Xw_fx.R")
+source("program/ILI/20240404_reg_sep_fore_Xw_fx.R")
 
 
 
@@ -21,7 +21,7 @@ source("program/20230628_reg_sep_fore_Xw_fx.R")
 
 f.yr = 2020
 f.period = 4
-data.fx(data, f.yr, f.period, 10)
+data.fx(data, f.yr, f.period, 26)
 data[, "t"] = decimal_date(data[, "WeekEnd"])
 
 

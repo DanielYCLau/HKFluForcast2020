@@ -12,7 +12,7 @@
 
 
 load(list.files("data", "HK_flu_reg", full.names = T))
-source("program/ILI/20230619_reg_sep_fore_Xw_fx.R")
+source("program/ILI/20240404_reg_sep_fore_Xw_fx.R")
 
 
 

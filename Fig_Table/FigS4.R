@@ -12,7 +12,7 @@
 
 
 load(list.files("data", "HK_flu_reg", full.names = T))
-source("program/ILI/20230619_reg_sep_fore_Xw_fx.R")
+source("program/ILI/20240404_reg_sep_fore_Xw_fx.R")
 
 substrRight = function(x, n){ substr(x, nchar(x)-n+1, nchar(x)) }
 
@@ -29,7 +29,7 @@ substrRight = function(x, n){ substr(x, nchar(x)-n+1, nchar(x)) }
 
 f.yr = 2020
 f.period = 13
-data.fx(data, f.yr, f.period, 10)
+data.fx(data, f.yr, f.period, 26)
 model.list.fx()
 
 
@@ -46,6 +46,9 @@ model.list.fx()
 
 
 load(list.files("program/ILI", sprintf("reg_sep_fore_%02dw_%d_CV_result.Rdata", f.period, f.yr), full.names = T))
+
+cv.table = aggregate(. ~ model, data = cv.table, FUN = mean)
+cv.table = subset(cv.table, select = -tsCV.ind)
 cv.table = criteria.rank.fx(cv.table, rank.w.value = F)
 
 ( RMSE.model = with(cv.table, model[which.min(v.RMSE     )]) )
@@ -81,7 +84,7 @@ for ( model in model.list ) {
   # model = "RMSE.model"
   model.effect = list()
   par.list = c()
-  for (par.i in c(sprintf("log_ILIpS_lag_%02d", 1:10), "bs", "temp", "AH", "ozone", "ScHD")) {
+  for (par.i in c(sprintf("log_ILIpS_lag_%02d", 1:26), "bs", "temp", "AH", "ozone", "ScHD")) {
     if ( any( grepl(par.i, get(model)) ) ) {
       par.list = c(par.list, par.i)
     }
@@ -92,25 +95,18 @@ for ( model in model.list ) {
     effect.par = list()
     effect.par[["par"]] = par
     
-    coln.par = switch(
-      par, 
-      "bs"               = "Week", 
-      "log_ILIpS_lag_01" = "ILIpS",
-      "log_ILIpS_lag_02" = "ILIpS",
-      "log_ILIpS_lag_03" = "ILIpS",
-      "log_ILIpS_lag_04" = "ILIpS",
-      "log_ILIpS_lag_05" = "ILIpS",
-      "log_ILIpS_lag_06" = "ILIpS",
-      "log_ILIpS_lag_07" = "ILIpS",
-      "log_ILIpS_lag_08" = "ILIpS",
-      "log_ILIpS_lag_09" = "ILIpS",
-      "log_ILIpS_lag_10" = "ILIpS",
-      "AH"               = "AH", 
-      "temp"             = "Mean_Temp",
-      "ozone"            = "o3",
-      "ScHD"             = "ScHD"
+    coln.par = sprintf(
+      "switch(par,%s)",
+      paste(
+        sprintf(
+          "\"%s\" = \"%s\"", 
+          c(  "bs", sprintf("log_ILIpS_lag_%02d", 1:26), "AH",      "temp", "ozone", "ScHD"),
+          c("Week",                    rep("ILIpS", 26), "AH", "Mean_Temp",    "o3", "ScHD")
+        ), collapse = ","
+      )
     )
-    
+    coln.par = eval(parse(text = coln.par))
+
     if (par == "bs") {
       par.x = seq(0, 53, length.out = 1e3)
     } else if ( par == "ILIpS" ) {
@@ -184,14 +180,14 @@ stopCluster(cl)
 
 
 pdf(
-  width  = 9, 
+  width  = 7, 
   height = 12, 
   file   = file.fx(sprintf("FigS4_%02dw.pdf", f.period))
 )
 
 # windows(width = 9, height = 12)
 # quartz(width = 9, height = 12)
-par(mfrow = c(5,4), mar = c(5,4,3,1), oma = c(4,4,0,0), las = 1)
+par(mfrow = c(5,3), mar = c(5,4,3,1), oma = c(4,4,0,0), las = 1)
 
 for (j in 1:length(nth.week)) {
   
@@ -285,7 +281,7 @@ mtext(
 )
 
 legend(
-  "bottomright", xpd = NA, inset = c(1.5, -0.8),
+  "bottomright", xpd = NA, inset = c(0.8, -0.8),
   legend = sprintf("%s    ", c("WIS", "RMSE", "RMSLE", "MAE")),
   lty = 1:5, lwd = 2, col = col.fx(1:4),
   horiz = T, bty = "n"

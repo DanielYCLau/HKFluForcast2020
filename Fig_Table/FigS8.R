@@ -13,7 +13,7 @@
 
 load(list.files("data", "HK_flu_reg", full.names = T))
 load(list.files("data", "hosp_data", full.names = T))
-source("program/hosp/20230628_reg_sep_fore_Xw_fx.R")
+source("program/hosp/20240415_reg_sep_fore_Xw_fx.R")
 
 substrRight = function(x, n){ substr(x, nchar(x)-n+1, nchar(x)) }
 
@@ -87,7 +87,7 @@ for (k in 1:length(f.list)) {
   # same for every plot
   plot(
     ILIpS ~ t, data = data,
-    ylim = c(0, 400), xlim = t.lim,
+    ylim = c(0, 410), xlim = t.lim,
     ylab = "", type = "l", xaxt = "n", yaxt = "n", ann = F
   )
   axis(2, at = seq(0, 300, 100), labels = seq(0, 300, 100)/1e4)
@@ -115,15 +115,7 @@ for (k in 1:length(f.list)) {
   abline(h = seq(0, 1000, 50), col = alpha(1, 0.2), lty = 3)
   
   abline(v = decimal_date(as.Date("2020-01-22")), col = 2)
-  # legend(
-  #   "topright", 
-  #   legend = "First COVID case\nin Hong Kong\non 22nd Jan 2020", 
-  #   lty = 1, 
-  #   col = 2,
-  #   cex = 0.75,
-  #   bty = "n"
-  # )
-  
+
   # start loop 
   for ( i in 1:length(models) ) {
     

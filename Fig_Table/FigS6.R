@@ -15,8 +15,8 @@ os = Sys.info()[["sysname"]]
 
 
 load(list.files("data", "HK_flu_reg", full.names = T))
-source("program/ILI/20230619_reg_sep_fore_Xw_fx.R")
-source("program/ILI/20230620_Rt_fx.R")
+source("program/ILI/20240404_reg_sep_fore_Xw_fx.R")
+source("program/ILI/20240404_Rt_fx.R")
 
 
 
@@ -94,7 +94,10 @@ inc.data = transform(
 
 
 
-load(list.files("program/ILI", sprintf("forecast_%dw_Rt.Rdata", f.start), full.names = T))
+f.start = 3
+
+load(list.files("program/ILI", "forecast_RtPI.Rdata", full.names = T))
+pred.Rt = pred.Rt[[f.start]]
 
 for (i in c("Cori.obs.Rt", "Cori.fit.Rt")) { # }, "WT.obs.Rt", "WT.fit.Rt")) {
   
@@ -141,12 +144,8 @@ for (i in c("Cori.obs.Rt", "Cori.fit.Rt")) { # }, "WT.obs.Rt", "WT.fit.Rt")) {
 
 
 
-
-f.start = 3
-
-load(list.files("program/ILI", sprintf("forecast_%dw_RtCI.Rdata", f.start), full.names = T))
-
-
+load(list.files("program/ILI", "forecast_RtCI.Rdata", full.names = T))
+pred.Rt = pred.Rt[[f.start]]
 
 for (i in c("Cori.obs.Rt", "Cori.fit.Rt")) { # }, "WT.obs.Rt", "WT.fit.Rt")) {
   
@@ -249,7 +248,7 @@ for (k in c("Cori")) { # "WT", "Cori")) {
   obs.Rt = get(sprintf("%s.obs.Rt.PI.sum", k))[1:11, ]
   fit.Rt = head(get(sprintf("%s.fit.Rt.PI.sum", k)), -1)
   
-  plot(NULL, xlim = x.lim, ylim = c(-3, 2), axes = F, ylab = "", xlab = "")
+  plot(NULL, xlim = x.lim, ylim = c(-2, 2), axes = F, ylab = "", xlab = "")
   axis(4, at = seq(0,2,0.5))
   lines(mu ~ dec.date, data = obs.Rt, col = 1, lwd = 2)
   with(obs.Rt, polygon.fx(t = dec.date, LB = LB, UB = UB, col = col.fx(10, 0.1)))
